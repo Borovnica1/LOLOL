@@ -1,0 +1,35 @@
+Write a function that takes a string as input and reverse only the vowels of a string.
+
+Example 1:
+
+Input: "hello"
+Output: "holle"
+Example 2:
+
+Input: "leetcode"
+Output: "leotcede"
+Note:
+The vowels does not include the letter "y".
+
+
+My Solution:
+
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        endOfString = len(s) - 1
+        startOfString = 0 
+        vowels = 'aeiouAEIOU'
+        
+        while startOfString < endOfString:
+            if s[startOfString] in vowels: 
+                while endOfString > startOfString:
+                    if s[endOfString] in vowels:
+                        temp = s[startOfString]
+                        s = s[:startOfString] + s[endOfString] + s[startOfString+1:]
+                        s = s[:endOfString] +  temp + s[endOfString+1:]
+                        endOfString -= 1
+                        break
+                    endOfString -= 1
+            startOfString += 1
+        print(s)
+        return s
