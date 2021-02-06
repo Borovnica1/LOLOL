@@ -1,0 +1,47 @@
+Feb 07 Daily
+
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+Example:
+
+Input: [1,2,3,null,5,null,4]
+Output: [1, 3, 4]
+Explanation:
+
+   1            <---
+ /   \
+2     3         <---
+ \     \
+  5     4       <---
+
+My Solution:
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        if root == None: return
+        q = []
+        q.append(root)
+        res = []
+        while len(q):
+            length = len(q)
+            for index in range(1, length + 1):
+                temp = q[0]
+                print(temp, q)
+                q.pop(0)
+                
+                if index == length:
+                    res.append(temp.val)
+                
+                if temp.left != None:
+                    q.append(temp.left)
+                if temp.right != None:
+                    q.append(temp.right)
+                
+        return res
+
