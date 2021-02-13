@@ -1,0 +1,27 @@
+Prob:
+
+Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Example:
+
+Input: [0,1,0,3,12]
+Output: [1,3,12,0,0]
+Note:
+
+You must do this in-place without making a copy of the array.
+Minimize the total number of operations.
+
+
+Sol:
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        nxt = 0
+        for num in nums:
+            if num != 0:
+                nums[nxt] = num
+                nxt += 1
+        for i in range(nxt, len(nums)):
+            nums[i] = 0
+        return nums
+        
