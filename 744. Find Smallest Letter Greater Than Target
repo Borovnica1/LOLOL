@@ -1,0 +1,53 @@
+Prob:
+
+Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
+
+Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
+
+Examples:
+Input:
+letters = ["c", "f", "j"]
+target = "a"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "c"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "d"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "g"
+Output: "j"
+
+Input:
+letters = ["c", "f", "j"]
+target = "j"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "k"
+Output: "c"
+
+My Sol:
+
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        if target >= letters[-1] or target < letters[0]: return letters[0]
+        lo, hi = 0, len(letters)
+        
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
+            if letters[mid-1] <= target and target < letters[mid]:
+                return letters[mid]
+            if target < letters[mid]:
+                hi = mid - 1
+            if letters[mid] <= target:
+                lo = mid + 1
+         
