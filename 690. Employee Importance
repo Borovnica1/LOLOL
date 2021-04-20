@@ -49,3 +49,18 @@ class Solution:
             if em.id == id:
                 search(em)
         return value
+
+Optimized Sol with Hashmap:
+
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        d = {e.id:e for e in employees}
+        
+        def dfs(em):
+            if em.subordinates == []:
+                return em.importance
+            for eId in em.subordinates:
+                em.importance += dfs(d[eId])
+            return em.importance
+        
+        return dfs(d[id])
