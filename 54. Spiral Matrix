@@ -1,0 +1,64 @@
+Prob:
+
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+ 
+
+Example 1:
+
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+Example 2:
+
+
+Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+ 
+
+Constraints:
+
+m == matrix.length
+n == matrix[i].length
+1 <= m, n <= 10
+-100 <= matrix[i][j] <= 100
+
+
+MY SOl:
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        nums = []
+        while True:
+            for n in matrix[0]:
+                nums.append(n)
+            matrix.pop(0)
+            if matrix == []:
+                return nums
+            
+            i = 0
+            while i < len(matrix):
+                nums.append(matrix[i].pop())
+                if matrix[i] == []:
+                    matrix.pop(i)
+                    i -= 1
+                i += 1
+            if matrix == []:
+                return nums
+            
+            for i in range(len(matrix[-1])-1, -1, -1):
+                nums.append(matrix[-1][i])
+            matrix.pop()
+            if matrix == []:
+                return nums
+            
+            for i in range(len(matrix)-1, -1, -1):
+                nums.append(matrix[i][0])
+                matrix[i].pop(0)
+                if matrix[i] == []:
+                    matrix.pop(i)
+            if matrix == []:
+                return nums
+
+            
+            
