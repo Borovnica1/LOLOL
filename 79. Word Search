@@ -1,0 +1,73 @@
+Prob:
+
+Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+ 
+
+Example 1:
+
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+Example 2:
+
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+Output: true
+Example 3:
+
+
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+Output: false
+ 
+
+Constraints:
+
+m == board.length
+n = board[i].length
+1 <= m, n <= 6
+1 <= word.length <= 15
+board and word consists of only lowercase and uppercase English letters.
+
+My SOl:
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        visited = {}
+        m = len(board) - 1
+        n = len(board[0]) - 1
+        wordMatched = False
+        def dfs(i, j, step):
+            nonlocal wordMatched
+            if wordMatched: return True
+            if (i, j) in visited:
+                if visited[(i, j)] == 1:
+                    return
+            if i < 0 or i > m or j < 0 or j > n:
+                return
+            
+            
+            if board[i][j] == word[step]:
+                visited[(i, j)] = 1
+                if step == len(word) - 1:
+                    wordMatched = True
+                    return
+                dfs(i, j+1, step+1)
+                dfs(i, j-1, step+1)
+                dfs(i-1, j, step+1)
+                dfs(i+1, j, step+1)
+                visited[(i, j)] = 0
+            else:
+                return False
+                
+        
+        for (i, row) in enumerate(board):
+            for (j, letter) in enumerate(row):
+                if letter == word[0]:
+                    dfs(i, j, 0)
+                    if wordMatched: break
+                    visited = {}
+            if wordMatched: break
+        return wordMatched
