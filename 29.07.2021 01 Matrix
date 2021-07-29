@@ -1,0 +1,67 @@
+Prob:
+
+Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.
+
+The distance between two adjacent cells is 1.
+
+ 
+
+Example 1:
+
+
+Input: mat = [[0,0,0],[0,1,0],[0,0,0]]
+Output: [[0,0,0],[0,1,0],[0,0,0]]
+Example 2:
+
+
+Input: mat = [[0,0,0],[0,1,0],[1,1,1]]
+Output: [[0,0,0],[0,1,0],[1,2,1]]
+ 
+
+Constraints:
+
+m == mat.length
+n == mat[i].length
+1 <= m, n <= 104
+1 <= m * n <= 104
+mat[i][j] is either 0 or 1.
+There is at least one 0 in mat.
+
+
+My Sol:
+
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        m = len(mat)
+        n = len(mat[0])
+        
+        def bfs(nei, step, closestNei):
+            newNei = []
+            if len(nei) == 0 or closestNei < step:
+                return closestNei+1
+            while len(nei) > 0:
+                cell = nei.pop()
+                i = cell[0]
+                j = cell[1]
+                if mat[i][j] == 0:
+                    return step
+                if i < m-1:
+                    newNei.append([i+1, j])
+                if j < n-1:
+                    newNei.append([i, j+1])
+                
+            return bfs(newNei, step+1, closestNei)
+            
+            
+        for i, row in enumerate(mat):
+            for j, cell in enumerate(row):
+                if cell == 1:
+                    upSteps = float('infinity')
+                    leftSteps = float('infinity')
+                    if i > 0:
+                        upSteps = mat[i-1][j] 
+                    if j > 0:
+                        leftSteps = mat[i][j-1] 
+                    s = bfs([[i, j]], 0, min(upSteps, leftSteps))
+                    mat[i][j] = s
+        return mat
