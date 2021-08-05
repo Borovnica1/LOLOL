@@ -1,0 +1,86 @@
+Prob:
+
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+
+Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+
+ 
+
+Example 1:
+
+
+Input: n = 4
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
+Example 2:
+
+Input: n = 1
+Output: [["Q"]]
+ 
+
+Constraints:
+
+1 <= n <= 9
+
+
+MY Sol:
+
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        board = [['.' for i  in range(n)] for i in range(n)]
+        def checkDiag(i , j):
+            iur = i-1
+            jur = j-1
+            while iur >= 0 and jur >= 0:
+                if board[iur][jur] == 'Q': return True
+                iur -= 1
+                jur -= 1
+            idl = i+1
+            jdl = j+1
+            while idl < n and jdl < n:
+                if board[idl][jdl] == 'Q': return True
+                idl += 1
+                jdl += 1
+            iul = i-1
+            jul = j+1
+            while iul >= 0 and jul < n:
+                if board[iul][jul] == 'Q': return True
+                iul -= 1
+                jul += 1
+            idr = i+1
+            jdr = j-1
+            while idr < n and jdr >= 0:
+                if board[idr][jdr] == 'Q': return True
+                idr += 1
+                jdr -= 1
+            return False
+        
+        res = []
+        def rec(row, col, qs, cols):
+            board[row][col] = 'Q'
+            
+            if checkDiag(row, col):
+                board[row][col] = '.'
+                return True
+            if qs == 0:
+                newB = []
+                for r in board:
+                    newB.append(''.join(r))
+                res.append(newB)
+                board[row][col] = '.'
+                return True
+            for i in range(len(cols)):
+                if cols[i] == col:
+                    cols[i] = -1
+            for c in cols:
+                if c == -1: continue
+                rec(row+1, c, qs-1, cols)
+            cols[col] = col
+            board[row][col] = '.'
+            return False
+        
+        for i in range(n):
+            rec(0, i, n-1, [j for j in range(n)])
+        return res
