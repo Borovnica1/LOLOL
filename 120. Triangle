@@ -48,3 +48,12 @@ class Solution:
         rec(row, 0)
         return min(triangle[row])
 
+bottom up approach:
+
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        row = len(triangle)-2
+        for r in range(row, -1, -1):
+            for c in range(0, len(triangle[r])):
+                triangle[r][c] = triangle[r][c] + min(triangle[r+1][c], triangle[r+1][c+1])
+        return triangle[0][0]
