@@ -49,3 +49,24 @@ class Solution:
                     else:
                         dp[i][j][k] = dp[i-1][j][k]
         return dp[l][j][k]
+
+REC SOL WITH MEMO:
+
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp = [[[-1 for i in range(len(strs))] for j in range(n+1)] for k in range(m+1)]
+        
+        def rec(i, m, n):
+            if i >= len(strs) or m + n == 0: return 0
+            if dp[m][n][i] != -1: return dp[m][n][i]
+            s = strs[i]
+            ones = s.count('1')
+            zeroes = s.count('0')
+            lolMax = 0
+            if n >= ones and m >= zeroes:
+                lolMax = rec(i+1, m-zeroes, n-ones) + 1
+            lol = max(lolMax, rec(i+1, m, n))
+            dp[m][n][i] = lol
+            return lol
+        ide = rec(0, m, n)
+        return ide
