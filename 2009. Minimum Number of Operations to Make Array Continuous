@@ -46,35 +46,28 @@ class Solution:
     def minOperations(self, nums: List[int]) -> int:
         nums.sort()
         n = len(nums)
-        windowSizeMax = 0
-        windowSizeCurr = 0
-        i = 0
+        windowSizeMax = windowSizeCurr = 0
+        i = start = duplicates = 0
         dd = {}
-        duplicates = 0
-        duplicatesMax = 0
-        while i < n:
-            start = i
-            duplicates = 0
-            windowSizeCurr = 0
-            endWindow = nums[i] + n-1
-            while i < n and nums[i] <= endWindow:
-                if nums[i] in dd and dd[nums[i]] > 0: 
-                    dd[nums[i]] += 1
-                    duplicates += 1
-                else: dd[nums[i]] = 1
-                i += 1
-                windowSizeCurr += 1
-                while i < n and nums[i] > endWindow:
-                    if windowSizeCurr-duplicates > windowSizeMax:
-                        windowSizeMax = windowSizeCurr-duplicates
-                    
-                    if nums[start] in dd and dd[nums[start]] > 1: 
-                        dd[nums[start]] -= 1
-                        duplicates -=1
-                    windowSizeCurr -= 1
-                    start += 1
-                    endWindow = nums[start] + n-1
-            if windowSizeCurr-duplicates > windowSizeMax:
-                windowSizeMax = windowSizeCurr-duplicates
-                
+        endWindow = nums[i] + n-1
+
+        while i < n and nums[i] <= endWindow:
+            if nums[i] in dd and dd[nums[i]] > 0: 
+                dd[nums[i]] += 1
+                duplicates += 1
+            else: dd[nums[i]] = 1
+            i += 1
+            windowSizeCurr += 1
+            while i < n and nums[i] > endWindow:
+                if windowSizeCurr-duplicates > windowSizeMax:
+                    windowSizeMax = windowSizeCurr-duplicates 
+                if nums[start] in dd and dd[nums[start]] > 1: 
+                    dd[nums[start]] -= 1
+                    duplicates -=1
+                windowSizeCurr -= 1
+                start += 1
+                endWindow = nums[start] + n-1
+
+        if windowSizeCurr-duplicates > windowSizeMax:
+            windowSizeMax = windowSizeCurr-duplicates            
         return n-(windowSizeMax)
